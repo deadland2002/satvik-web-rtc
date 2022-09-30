@@ -87,7 +87,7 @@ window.addEventListener("load", () => {
       //create room link
       let roomLink = `${location.origin}?room=${roomName
         .trim()
-        .replace(" ", "_")}_${helpers.generateRandomString()}`;
+        .replace(" ", "_")}`;
 
       //show message with link to room
       document.querySelector(
@@ -112,7 +112,9 @@ window.addEventListener("load", () => {
       //remove error message, if any
       document.querySelector("#err-msg").innerText = "";
 
-      window.location.replace("http://localhost:3000/?room=" + roomName);
+      window.location.replace(
+        "https://web-rtc-0.herokuapp.com/?room=" + roomName
+      );
 
       //empty the values
       document.querySelector("#room-name").value = "";

@@ -1,8 +1,9 @@
 body{
     background-image: url("https://i.postimg.cc/RhYJY7zC/Web-Rtc-white.png");
-    background-size: cover;
-    background-position: 0px -100px;
-    
+    background-size: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: black;
 }
 
 .div-wrapper{
@@ -22,6 +23,7 @@ body{
     padding-bottom: 40px;
     padding-top: 15px;
     min-height: 100vh;
+    margin-top: 7px;
 }
 
 .chat-col.chat-opened {
@@ -266,13 +268,20 @@ body{
     color: #f1f1f1;    
 }
 
-.bg-info{
-    background-color: #004651;
+.back-css{
+    background-color: rgba(83, 80, 80, 0.5);    
 }
 
-@media (min-width:768px){
+#chat-input{
+    border-radius: 20px;
+}
+
+@media (max-width:768px){
     .card{
         width: 50%;
         z-index: 1000;
+    }
+    body{
+        background-size: 100%;
     }
 }
