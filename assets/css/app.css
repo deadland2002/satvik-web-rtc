@@ -80,8 +80,9 @@ body{
 
 
 .remote-video{
-    width:100%;
-    height:fit-content;
+    width:auto;
+    height:auto;
+    max-width: 400px;
     max-height: 50vh;
 }
 
