@@ -5,8 +5,9 @@ let io = require( 'socket.io' )( server );
 let stream = require( './ws/stream' );
 let path = require( 'path' );
 let favicon = require( 'serve-favicon' );
+const PORT = process.env.PORT || 5000;
 
-console.log("Server Running on 3000");
+console.log("Server Running on port",PORT);
 
 
 app.use( favicon( path.join( __dirname, 'WEB.ico' ) ) );
@@ -19,4 +20,4 @@ app.get( '/', ( req, res ) => {
 
 io.of( '/stream' ).on( 'connection', stream );
 
-server.listen(80);
+server.listen(PORT);
