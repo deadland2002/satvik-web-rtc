@@ -275,7 +275,7 @@ export default {
     adjustVideoElemSize() {
         let elem = document.getElementsByClassName( 'card' );
         let totalRemoteVideosDesktop = elem.length;
-        let newWidth = totalRemoteVideosDesktop <= 2 ? '50%' : (
+        let newWidth = totalRemoteVideosDesktop <= 2 ? 'auto' : (
             totalRemoteVideosDesktop == 3 ? '33.33%' : (
                 totalRemoteVideosDesktop <= 8 ? '25%' : (
                     totalRemoteVideosDesktop <= 15 ? '20%' : (
