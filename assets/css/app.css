@@ -276,6 +276,17 @@ body{
     border-radius: 20px;
 }
 
+.dis-fl{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.fd-r{
+    flex-direction: row;
+}
+
+
 @media (max-width:768px){
     .card{
         width: 50%;
@@ -283,5 +294,13 @@ body{
     }
     body{
         background-size: 100%;
+    }
+
+    .mar-tp{
+        margin-top: 50px;
+    }
+
+    .fd-r{
+        flex-direction: column;
     }
 }

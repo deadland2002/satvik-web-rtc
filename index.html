@@ -43,14 +43,14 @@
         </div>
         
         <nav class="navbar fixed-top back-css rounded-0 d-print-none">
-            <div class="text-white">Video Call</div>
+            <!-- <div class="text-white">Video Call</div> -->
 
-            <div class="pull-right room-comm" hidden>
+            <div class="pull-right room-comm dis-fl fd-r" hidden>
                 <span class="text-white mr-5">
-                    Unique Identifier: <span id='randomNumber'></span>
+                    ID: <span id='randomNumber'></span>
                 </span>
-
-                <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
+                <div class="icon-wrap">
+                    <button class="btn btn-sm rounded-0 btn-no-effect" id='toggle-video' title="Hide Video">
                     <i class="fa fa-video text-white"></i>
                 </button>
 
@@ -77,6 +77,8 @@
                 <button class="btn btn-sm rounded-0 btn-no-effect text-white">
                     <a href="/" class="text-white text-decoration-none"><i class="fa fa-sign-out-alt text-white" title="Leave"></i></a>
                 </button>
+                </div>
+                
             </div>
         </nav>
 
@@ -133,7 +135,7 @@
             </div>
         </div>
         
-        <div class="container-fluid room-comm" hidden>
+        <div class="container-fluid room-comm mar-tp" hidden>
             <div class="row">
                 <video class="local-video mirror-mode" id='local' volume='0' autoplay muted></video>
             </div>
