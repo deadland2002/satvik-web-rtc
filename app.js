@@ -31,4 +31,4 @@ app.get( '/', ( req, res ) => {
 
 io.of( '/stream' ).on( 'connection', stream );
 
-server.listen(PORT,"10.8.9.8",()=>{console.log("server running")});
+server.listen(PORT,()=>{console.log("server running")});
