@@ -1,5 +1,7 @@
 import h from './helpers.js';
 
+var data_chunks = {}
+
 window.addEventListener( 'load', () => {
     const room = h.getQString( location.href, 'room' );
     const username = sessionStorage.getItem( 'username' );
@@ -99,6 +101,31 @@ window.addEventListener( 'load', () => {
             socket.on( 'chat', ( data ) => {
                 h.addChat( data, 'remote' );
             } );
+            
+            
+            
+            socket.on( 'file sended', async ( data ) => {
+                for(var i in data_chunks){
+                    if(i==data.filename){
+                        const data_retrived = await retrivedata(data_chunks[i])
+                        console.log(data)
+                        h.addfile(data_retrived,i,data.sender);
+                    }
+                }
+            });
+            
+            
+            socket.on( 'chunk sended', ( data ) => {
+
+                if(data_chunks[data.filename]){
+                    data_chunks[data.filename].push(data.chunk);
+                }else{
+                    data_chunks[data.filename] = []
+                    data_chunks[data.filename].push(data.chunk)
+                }
+
+                socket.emit("chunk recieved",{room:room});
+            });
         } );
 
 
@@ -128,6 +155,101 @@ window.addEventListener( 'load', () => {
             h.addChat( data, 'local' );
         }
 
+
+
+        async function sendfile(e){
+            return new Promise(async (resolve,reject)=>{
+                const files = event.target.parentElement.children[0].files;
+                console.log(files);
+            
+                const sp = document.createElement("span");
+                document.getElementById("file-name").appendChild(sp);
+                
+                sp.innerText = "Sending.....";
+                
+                let x=0;
+                
+                for(var i of files){
+                    await senddata(i);
+                }
+
+                sp.innerText = "Sent.....";
+
+            })
+            
+        }
+        
+        async function senddata(file) {
+            return new Promise(async (resolve , reject)=>{
+
+                const fileReader = new FileReader();
+                fileReader.readAsArrayBuffer(file);
+            
+                socket.emit("file type send", file.name);
+            
+                fileReader.onload = async (event) => {
+                    
+                    const content = event.target.result;
+                    const CHUNK_SIZE = 100000;
+                    var totalChunks = event.target.result.byteLength / CHUNK_SIZE;
+                    socket.emit("total chunks", Math.floor(totalChunks + 2));
+        
+        
+        
+                    console.log(content);
+        
+                    await new Promise(async (resolve , reject)=>{
+                        for (let chunk = 0; chunk < totalChunks + 1; chunk++) {
+                            let CHUNK = content.slice(
+                                chunk * CHUNK_SIZE,
+                                (chunk + 1) * CHUNK_SIZE
+                            );
+                            
+                            socket.emit("chunk send",{room: room,sender: `${username} (${randomNumber})` , chunk:CHUNK , filename:file.name})   
+                            
+                            await new Promise((resolve,reject)=>{ socket.on("chunk recieved",(data)=>{ resolve() }) })
+        
+                            if(chunk>totalChunks){
+                                resolve();
+                            } 
+                        }
+                    })
+        
+        
+                    socket.emit("file send",{room:room,sender: `${username}`,filename:file.name});
+                    console.log("sent");
+                    resolve();
+                };
+                
+            })
+        }
+
+
+        async function retrivedata(data) {
+            return new Promise(async (resolve, reject) => {
+              let length = 0;
+    
+              data.forEach((item) => {
+                length += item.byteLength;
+              });
+    
+              let mergedArray = new Uint8Array(length);
+              let offset = 0;
+    
+              await data.forEach((item) => {
+    
+                var array = new Uint8Array(item, 0, item.byteLength);
+    
+                mergedArray.set(array, offset);
+    
+                offset += item.byteLength;
+                
+                if (length == offset) {
+                  resolve(mergedArray);
+                }
+              });
+            });
+          }
 
 
         function init( createOffer, partnerName ) {
@@ -348,6 +470,12 @@ window.addEventListener( 'load', () => {
             };
         }
 
+
+        document.getElementById("file-send-btn").addEventListener("click",(e)=>{sendfile(e)});
+
+
+
+
         document.getElementById('chat-input-btn').addEventListener('click',(e) => {
             console.log("here: ",document.getElementById('chat-input').value)
             if (  document.getElementById('chat-input').value.trim()  ) {
@@ -358,6 +486,10 @@ window.addEventListener( 'load', () => {
                 }, 50 );
             }
         });
+
+
+
+
 
         //Chat textarea
         document.getElementById( 'chat-input' ).addEventListener( 'keypress', ( e ) => {
@@ -371,6 +503,10 @@ window.addEventListener( 'load', () => {
                 }, 50 );
             }
         } );
+
+
+
+
 
 
         //When the video icon is clicked

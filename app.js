@@ -1,7 +1,18 @@
 let express = require( 'express' );
 let app = express();
-let server = require( 'http' ).Server( app );
-let io = require( 'socket.io' )( server );
+let https = require('https');
+const fs = require('fs');
+
+const options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem'),
+};
+
+
+const server = https.createServer(options,app)
+const { Server } = require('socket.io');
+const io = new Server(server);
+
 let stream = require( './ws/stream' );
 let path = require( 'path' );
 let favicon = require( 'serve-favicon' );
@@ -20,4 +31,4 @@ app.get( '/', ( req, res ) => {
 
 io.of( '/stream' ).on( 'connection', stream );
 
-server.listen(PORT);
+server.listen(PORT,"10.8.9.8",()=>{console.log("server running")});

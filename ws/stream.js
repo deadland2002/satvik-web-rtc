@@ -29,6 +29,20 @@ const stream = ( socket ) => {
     socket.on( 'chat', ( data ) => {
         socket.to( data.room ).emit( 'chat', { sender: data.sender, msg: data.msg } );
     } );
+
+    socket.on( 'chunk send', ( data ) => {
+        socket.to( data.room ).emit( 'chunk sended', { sender: data.sender, chunk: data.chunk ,filename:data.filename} );
+    });
+    
+    
+    socket.on( 'file send', ( data ) => {
+        socket.to( data.room ).emit( 'file sended', { sender: data.sender,filename:data.filename} );
+    });
+
+    socket.on( 'chunk recieved', ( data ) => {
+        socket.to( data.room ).emit( 'chunk recieved', true );
+    });
+
 };
 
 module.exports = stream;

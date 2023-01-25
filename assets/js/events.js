@@ -48,6 +48,25 @@ window.addEventListener("load", () => {
       partElem.classList.add("chat-opened");
     }
   });
+  
+  
+  
+  document.querySelector("#send-file").addEventListener("click", (e) => {
+    let partElem = document.querySelector("#file-pane");
+    let partSecElem = document.querySelector("#part-section");
+
+    if (partElem.classList.contains("chat-opened")) {
+      partElem.setAttribute("hidden", true);
+      partSecElem.classList.remove("col-md-9");
+      partSecElem.classList.add("col-md-12");
+      partElem.classList.remove("chat-opened");
+    } else {
+      partElem.attributes.removeNamedItem("hidden");
+      partSecElem.classList.remove("col-md-12");
+      partSecElem.classList.add("col-md-9");
+      partElem.classList.add("chat-opened");
+    }
+  });
 
 
 
@@ -112,9 +131,7 @@ window.addEventListener("load", () => {
       //remove error message, if any
       document.querySelector("#err-msg").innerText = "";
 
-      window.location.replace(
-        "https://web-rtc-0.herokuapp.com/?room=" + roomName
-      );
+      location.href = "/?room=" + roomName ;
 
       //empty the values
       document.querySelector("#room-name").value = "";
@@ -156,4 +173,6 @@ window.addEventListener("load", () => {
   document.getElementById("closeModal").addEventListener("click", () => {
     helpers.toggleModal("recording-options-modal", false);
   });
+  
+  
 });

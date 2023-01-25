@@ -330,5 +330,23 @@ export default {
                 clearInterval( testInterval );
             }
         }, 2000 );
+    },
+    addfile(data,filename,sender){
+        let blob1 = new Blob([data]);
+          
+        const url = URL.createObjectURL(blob1);
+        console.log(url);
+
+        const a_tag = document.createElement("a");
+
+        const sp = filename.split(".");
+
+        a_tag.setAttribute("href", url);
+        a_tag.setAttribute("download", filename);
+        a_tag.classList.add("download-file");
+        a_tag.innerHTML = `file sent by : ${sender} <br/> type : ${sp[sp.length - 1]}`;
+        document.getElementById("recived-file").appendChild(a_tag);
+
+        console.log(a_tag)
     }
 };

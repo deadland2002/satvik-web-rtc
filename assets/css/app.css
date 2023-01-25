@@ -269,7 +269,7 @@ body{
 }
 
 .back-css{
-    background-color: rgba(83, 80, 80, 0.5);    
+    background-color: rgba(83, 80, 80, 1);    
 }
 
 #chat-input{
@@ -284,6 +284,30 @@ body{
 
 .fd-r{
     flex-direction: row;
+}
+
+.recived-file {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px 10px;
+}
+
+.recived-file a:active{
+    color: white;
+}
+
+.recived-file a{
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: rgb(116 116 116);
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.recived-file ::after{
+    content: " ";
 }
 
 
